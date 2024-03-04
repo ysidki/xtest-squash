@@ -1,0 +1,32 @@
+{
+  "_embedded": {
+    "requirements": [
+      {
+        "_type": "requirement",
+        "id": 255,
+        "name": "Test Requirement 1",
+        "current_version": {
+          "_type": "requirement-version",
+          "id": 255,
+          "reference": "TF1-R1",
+          "_links": {
+            "self": {
+              "href": "http://localhost:8080/squash/api/rest/latest/requirement-versions/255"
+            }
+          }
+        },
+        "_links": {
+          "self": {
+            "href": "http://localhost:8080/squash/api/rest/latest/requirements/255"
+          }
+        }
+      }
+    ]
+  },
+  "_links": {
+    "self": {
+      "href": "http://localhost:8080/squash/api/rest/latest/requirements?page=0&size=20"
+    }
+  },
+  "page": { "size": 20, "totalElements": 1, "totalPages": 1, "number": 0 }
+}
