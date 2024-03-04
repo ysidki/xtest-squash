@@ -1,4 +1,5 @@
 import logging 
+from requirements_data import Requirements_Data
 
 LOGGER = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO)
@@ -9,6 +10,7 @@ class Requirements:
         self._session = session
 
         url = session.url
+
         self._apis= {
             'get_all_requirements' : url + '/requirements', 
             'create_requirement' : url + '/requirements',
@@ -47,45 +49,16 @@ class Requirements:
 
         Returns: a dictionnary of the created requirement
 
-        !!!!  TODO  !!!!
-        == add custom field ==
-        == add category ==
         """
-        if requirement_type != 'requirement':
-            raise ValueError('type must be : requirement')
+    
+        data = Requirements_Data(requirement_type, name, criticality, 
+                                 status, description, parent_type, parent_id)
         
-        if criticality not in ['MINOR', 'MAJOR', 'CRITICAL', 'UNDEFINED']:
-            raise ValueError('criticality must be : MINOR, MAJOR, CRITICAL or UNDEFINED')
-        
-        if status not in ['UNDER_REVIEW', 'APPROVED', 'OBSOLETE', 'WORK_IN_PROGRESS']:
-            raise ValueError('status must be : UNDER_REVIEW, APPROVED, OBSOLET or WORK_IN_PROGRESS')
-        if type(parent_id) != type(000):
-            raise ValueError('parent_id must be an integer')
-        
-        if parent_type not in ['requirement', 'requirement-folder']:
-            raise ValueError('parent_type must be : requirement or requirement-folder')
+        dict_data = data.to_dict()
 
-        data = {
-            "_type" : requirement_type,
-            "current_version" : {
-                "_type" : "requirement-version",
-                "name" : name,
-                "criticality" : criticality,
-                "category" : {
-                    "code" : 'CAT_UNDEFINED'
-                },
-                "status" : status,
-                "description" : description,   
-            },
-            "parent" : {
-                "_type" : parent_type,
-                "id" : parent_id
-            }
-        }
+        LOGGER.info('Creating requirement '+ name + ' with data: ' + str(dict_data) + "\n")
 
-        LOGGER.info('Creating requirement '+ name)
-
-        response = self._session.get_session.post(self._apis['create_requirement'], json=data)
+        response = self._session.get_session.post(self._apis['create_requirement'], json=dict_data)
         dict_response = response.json()
         
         return [dict_response, response.status_code]
