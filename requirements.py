@@ -55,7 +55,7 @@ class Requirements:
                                  status, description, parent_type, parent_id)
         
         dict_data = data.to_dict()
-
+        
         LOGGER.info('Creating requirement '+ name + ' with data: ' + str(dict_data) + "\n")
 
         response = self._session.get_session.post(self._apis['create_requirement'], json=dict_data)
@@ -75,6 +75,10 @@ class Requirements:
 
         Returns: a dictionnary of the modified requirement
         """
+
+        data = Requirements_Data('requirement', name, 'UNDEFINED',)
+        
+
         print('Modifying requirement '+ name)
         data = {
             'name': name,
