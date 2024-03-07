@@ -63,7 +63,8 @@ class Requirements:
         
         return [dict_response, response.status_code]
     
-    def modify_requirement(self, id, name, description, parent_id=None):
+    def modify_requirement(self, requirement_type, name, criticality, status, description, 
+                           parent_type, parent_id):
         """
         modify a requirement. 
 
@@ -76,19 +77,16 @@ class Requirements:
         Returns: a dictionnary of the modified requirement
         """
 
-        data = Requirements_Data('requirement', name, 'UNDEFINED',)
+        data = Requirements_Data(requirement_type, name, criticality, status, description, 
+                            parent_type, parent_id)
+        
+        dict_data = data.to_dict()
         
 
-        print('Modifying requirement '+ name)
-        data = {
-            'name': name,
-            'description': description,
-            'parentId': parent_id
-        }
-        response = self._session.get_session.put(self._apis['modify_requirement'](id), json=data)
-        response_json = response.json()
+        response = self._session.get_session.patch(self._apis['modify_requirement'](id), json=dict_data)
+        dict_response = response.json()
         
-        return response_json
+        return [dict_response, response.status_code]
     
     def delete_requirement(self, ids):
         """
