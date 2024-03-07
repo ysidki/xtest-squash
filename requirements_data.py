@@ -2,17 +2,22 @@
 
 class Requirements_Data:
 
-    def __init__(self, requirement_type, name, criticality, 
-                 status, description, parent_type, parent_id):
+    def __init__(self, requirement_type: str, name: str, criticality: str, 
+                 status: int, description: str, parent_type: str, parent_id: str):
         
         """
         !!!!  TODO  !!!!
         == add custom field ==
         == add category ==
         """
-        
-        if requirement_type != 'requirement':
-            raise ValueError('type must be : requirement')
+        # check that all the parameters are of the right type
+        string_attributes = [requirement_type, name, criticality, status, description, parent_type]
+        for attribute in string_attributes:
+            if not isinstance(attribute, str):
+                raise ValueError(f'{attribute} must be a string')
+            
+        if not isinstance(status, int):
+            raise ValueError('status must be an integer')
         
         if criticality not in ['MINOR', 'MAJOR', 'CRITICAL', 'UNDEFINED']:
             raise ValueError('criticality must be : MINOR, MAJOR, CRITICAL or UNDEFINED')
